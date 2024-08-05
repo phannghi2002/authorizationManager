@@ -1,5 +1,6 @@
 package com.rs.user_manager.service;
 
+import com.rs.user_manager.entity.OurUsers;
 import com.rs.user_manager.repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,9 @@ public class OurUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        OurUsers user = usersRepo.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        System.out.println("Loaded User: " + user);
+        System.out.println("Authorities: " + user.getAuthorities());
         return usersRepo.findByEmail(username).orElseThrow();
     }
 }

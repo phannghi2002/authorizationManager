@@ -55,7 +55,9 @@ public class UsersManagementService {
         ReqRes response = new ReqRes();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            //cau lenh tren se goi den method loadUserByUsername
             var user = usersRepo.findByEmail(loginRequest.getEmail()).orElseThrow();
+            System.out.println("In ra user" + user);
             var jwt = jwtUtils.generateToken(user);
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
